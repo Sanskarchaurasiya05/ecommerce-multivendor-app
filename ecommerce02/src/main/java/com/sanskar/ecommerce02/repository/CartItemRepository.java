@@ -11,5 +11,5 @@ public interface CartItemRepository extends JpaRepository<CartItem,Long> {
 
     CartItem findByCartAndProductAndSize(Cart cart , Product product , String size);
 
-    CartItem findbyUserId(Long userId);
+    CartItem findByUserId(Long userId);
 }

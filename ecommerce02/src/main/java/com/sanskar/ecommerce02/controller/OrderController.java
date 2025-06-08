@@ -3,9 +3,7 @@ package com.sanskar.ecommerce02.controller;
 import com.sanskar.ecommerce02.domain.PaymentMethod;
 import com.sanskar.ecommerce02.model.*;
 import com.sanskar.ecommerce02.response.PaymentLinkResponse;
-import com.sanskar.ecommerce02.service.CartService;
-import com.sanskar.ecommerce02.service.OrderService;
-import com.sanskar.ecommerce02.service.UserService;
+import com.sanskar.ecommerce02.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +20,8 @@ public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
     private final CartService cartService;
-
+     private final SellerService sellerService;
+     private final SellerReportService sellerReportService;
 
     @PostMapping()
     public ResponseEntity<PaymentLinkResponse> createOrderHandler(
@@ -102,12 +101,12 @@ public class OrderController {
         User user=userService.findUserByJwtToken(jwt);
         Order order=orderService.cancelOrder(orderId,user);
 
-//        Seller seller= sellerService.getSellerById(order.getSellerId());
-//        SellerReport report=sellerReportService.getSellerReport(seller);
-//
-//        report.setCanceledOrders(report.getCanceledOrders()+1);
-//        report.setTotalRefunds(report.getTotalRefunds()+order.getTotalSellingPrice());
-//        sellerReportService.updateSellerReport(report);
+        Seller seller= sellerService.getSellerById(order.getSellerId());
+        SellerReport report=sellerReportService.getSellerReport(seller);
+
+        report.setCanceledOrders(report.getCanceledOrders()+1);
+        report.setTotalRefunds(report.getTotalRefunds()+order.getTotalSellingPrice());
+        sellerReportService.updateSellerReport(report);
 
         return ResponseEntity.ok(order);
     }

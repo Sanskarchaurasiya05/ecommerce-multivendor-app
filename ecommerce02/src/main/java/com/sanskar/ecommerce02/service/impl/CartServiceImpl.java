@@ -11,13 +11,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
+
 public class CartServiceImpl implements CartService {
 
     private final CartItemRepository cartItemRepository;
     private final CartRepository cartRepository;
 
-//    ------------------------------------------------------------------------------------------------
+    public CartServiceImpl(CartItemRepository cartItemRepository, CartRepository cartRepository) {
+        this.cartItemRepository = cartItemRepository;
+        this.cartRepository = cartRepository;
+    }
+
+    //    ------------------------------------------------------------------------------------------------
     @Override
     public CartItem addCartItem(User user, Product product, String size, int quantity) {
       Cart cart = findUserCart(user);

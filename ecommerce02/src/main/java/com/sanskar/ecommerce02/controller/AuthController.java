@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
     @Autowired
@@ -25,6 +24,12 @@ public class AuthController {
 
     @Autowired
     private final AuthService authService;
+
+    public AuthController(AuthService authService, UserRepository userRepository) {
+        this.authService = authService;
+        this.userRepository = userRepository;
+    }
+
 
 
     @PostMapping("/sent/login-signup-otp")

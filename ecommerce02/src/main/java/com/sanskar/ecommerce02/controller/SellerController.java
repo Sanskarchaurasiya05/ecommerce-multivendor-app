@@ -12,6 +12,7 @@ import com.sanskar.ecommerce02.response.ApiResponse;
 import com.sanskar.ecommerce02.response.AuthResponse;
 import com.sanskar.ecommerce02.service.AuthService;
 import com.sanskar.ecommerce02.service.EmailService;
+import com.sanskar.ecommerce02.service.SellerReportService;
 import com.sanskar.ecommerce02.service.SellerService;
 import com.sanskar.ecommerce02.util.OtpUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ public class SellerController {
     private final VarificationCodeRepository varificationCodeRepository;
 private final EmailService emailService;
      private final JwtProvider jwtProvider;
+     private final SellerReportService sellerReportService;
 
 //-------------------------------------------------------------------------------------------------------------------
     @PostMapping("/login")
@@ -103,11 +105,14 @@ private final EmailService emailService;
         return new ResponseEntity<>(seller,HttpStatus.OK);
     }
 
-//    already we have
-//    @GetMapping("/report")
-//    public ResponseEntity<SellerReport> getSellerReport(@RequestHeader("Authorization") String jwt){
-//        String email = jwtProvide
-//    }
+
+    @GetMapping("/report")
+    public ResponseEntity<SellerReport> getSellerReport(@RequestHeader("Authorization") String jwt) throws Exception {
+
+        Seller seller = sellerService.getSellerProfile(jwt);
+        SellerReport report = sellerReportService.getSellerReport(seller);
+        return new ResponseEntity<>(report,HttpStatus.OK);
+    }
 
 //    -----------------------------------------------------------------------------------------------------------------
 

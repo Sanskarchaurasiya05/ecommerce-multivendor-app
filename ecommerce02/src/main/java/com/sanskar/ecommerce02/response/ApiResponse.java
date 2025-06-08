@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@NoArgsConstructor
+
 
 public class ApiResponse {
     private String message;
@@ -14,6 +14,10 @@ public class ApiResponse {
     public ApiResponse(String message, boolean status) {
         this.message = message;
         this.status = status;
+    }
+
+  public   ApiResponse(){
+
     }
 
     public boolean isStatus() {
